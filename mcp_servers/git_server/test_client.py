@@ -38,6 +38,28 @@ async def main() -> None:
             for item in result.content:
                 print(item.text)
 
+            result = await session.call_tool("get_commit_log", arguments={"limit": 5})
+            print("\n--- get_commit_log(limit=5) ---")
+            for item in result.content:
+                print(item.text)
+            
+            
+            result = await session.call_tool("read_file", arguments={"path": "leaderboard_project/main.py"})
+            print("\n--- read_file(leaderboard_project/main.py) ---")
+            for item in result.content:
+                print(item.text)
+
+            result = await session.call_tool("get_file_history", arguments={"path": "leaderboard_project/main.py"})
+            print("\n--- get_file_history(leaderboard_project/main.py) ---")
+            for item in result.content:
+                print(item.text)
+
+            result = await session.call_tool("search_code", arguments={"query": "FastAPI"})
+            print("\n--- search_code('FastAPI') ---")
+            for item in result.content:
+                print(item.text)
+
+
 
 
 asyncio.run(main())
