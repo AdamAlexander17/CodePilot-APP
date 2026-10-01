@@ -56,6 +56,7 @@ def get_commit_log(limit: int = 20) -> list[dict[str, str]]:
         capture_output=True,
         text=True,
         check=True,
+        encoding="utf-8",
     )
 
     commits = []
@@ -89,6 +90,7 @@ def get_file_history(path: str) -> list[dict[str, str]]:
         capture_output=True,
         text=True,
         check=True,
+        encoding="utf-8",
     )
 
     if not result.stdout.strip():
@@ -114,6 +116,7 @@ def search_code(query: str, max_results: int = 50) -> list[dict[str, str]]:
         cwd=REPO_ROOT,
         capture_output=True,
         text=True,
+        encoding="utf-8",
     )
 
     if result.returncode not in (0, 1):  # 1 = "no matches", not an error
