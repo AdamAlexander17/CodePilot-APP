@@ -18,6 +18,7 @@ async def main() -> None:
         response = model.invoke("List the files in this repository.")
 
         print("Model's tool calls:", response.tool_calls)
+        print("Model's text response:", response.content)
 
 
 asyncio.run(main())

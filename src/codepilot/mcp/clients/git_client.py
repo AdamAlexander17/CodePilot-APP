@@ -46,9 +46,9 @@ async def get_git_tools(repo_path: str, stack: AsyncExitStack) -> list[BaseTool]
         env={"GIT_MCP_REPO_PATH": repo_path},
     )
 
-    read, write = await stack.enter_async_context(stdio_client(server_params))
-    session = await stack.enter_async_context(ClientSession(read, write))
-    await session.initialize()
+    read, write = await stack.enter_async_context(stdio_client(server_params)) # what it does: starts the Git MCP server and returns the read/write streams for communication
+    session = await stack.enter_async_context(ClientSession(read, write)) # this creates an MCP client session using the read/write streams
+    await session.initialize() # initialize the MCP session to prepare for tool calls
 
     mcp_tools = await session.list_tools()
 
@@ -68,3 +68,7 @@ async def get_git_tools(repo_path: str, stack: AsyncExitStack) -> list[BaseTool]
         )
 
     return [make_tool(t) for t in mcp_tools.tools]
+
+
+
+
