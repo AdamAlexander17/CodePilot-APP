@@ -22,3 +22,7 @@ _session_factory = async_sessionmaker(
 async def get_session() -> AsyncGenerator[AsyncSession, None]:
     async with _session_factory() as session:
         yield session
+
+def new_session() -> AsyncSession:
+    """Create a standalone session, for code that runs outside a request (background tasks)."""
+    return _session_factory()

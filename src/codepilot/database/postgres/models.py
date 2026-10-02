@@ -17,9 +17,11 @@ class Investigation(Base):
 
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     title: Mapped[str]
+    repo_path: Mapped[str]
     status: Mapped[InvestigationStatus] = mapped_column(
         Enum(InvestigationStatus, values_callable=lambda enum_cls: [e.value for e in enum_cls]),
         default=InvestigationStatus.PENDING,
     )
+    result: Mapped[str | None] = mapped_column(default=None)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
