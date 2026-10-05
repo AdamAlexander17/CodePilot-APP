@@ -17,7 +17,9 @@ dependencies = [
     "ollama>=0.6.3",
     "psycopg[binary]>=3.3.6",
     "pydantic-settings>=2.15.0",
+    "pymysql>=1.2.3",
     "sqlalchemy[asyncio]>=2.1.0",
+    "sqlparse>=0.6.0",
     "uvicorn[standard]>=0.53.0",
 ]
 
