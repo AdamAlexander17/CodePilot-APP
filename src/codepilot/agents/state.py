@@ -9,3 +9,5 @@ from typing_extensions import TypedDict
 class AgentState(TypedDict):
     messages: Annotated[list[AnyMessage], add_messages]
     repo_path: str
+    plan: str
+    report: dict

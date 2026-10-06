@@ -30,11 +30,16 @@ async def get_investigation(session: AsyncSession, investigation_id: uuid.UUID) 
 
 
 async def complete_investigation(
-    session: AsyncSession, investigation_id: uuid.UUID, status: InvestigationStatus, result: str
+    session: AsyncSession,
+    investigation_id: uuid.UUID,
+    status: InvestigationStatus,
+    result: str,
+    result_report: dict | None = None,
 ) -> None:
     investigation = await session.get(Investigation, investigation_id)
     if investigation is None:
         return
     investigation.status = status
     investigation.result = result
+    investigation.result_report = result_report
     await session.commit()

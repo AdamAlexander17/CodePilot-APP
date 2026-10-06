@@ -22,21 +22,26 @@ router = APIRouter(prefix="/investigations", tags=["investigations"])
 
 
 async def _run_investigation(investigation_id: uuid.UUID, title: str, repo_path: str) -> None:
-    """Runs in the background, after the HTTP response has already been sent."""
+    report_dict = None
     try:
         async with AsyncExitStack() as stack:
             graph = await build_graph(repo_path, stack)
             result = await graph.ainvoke(
                 {"messages": [HumanMessage(title)], "repo_path": repo_path}
             )
-        answer = result["messages"][-1].content
+        report_dict = result["report"]
+        answer = (
+            report_dict.get("root_cause")
+            or "; ".join(report_dict.get("hypotheses", []))
+            or "Investigation completed with no conclusive findings."
+        )
         status = InvestigationStatus.COMPLETED
     except Exception as exc:
         answer = f"Investigation failed: {exc}"
         status = InvestigationStatus.FAILED
 
     async with new_session() as session:
-        await complete_investigation(session, investigation_id, status, answer)
+        await complete_investigation(session, investigation_id, status, answer, report_dict)
 
 
 @router.post("/", status_code=201)

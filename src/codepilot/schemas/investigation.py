@@ -19,5 +19,6 @@ class InvestigationRead(BaseModel):
     repo_path: str
     status: InvestigationStatus
     result: str | None
+    result_report: dict | None
     created_at: datetime
     updated_at: datetime

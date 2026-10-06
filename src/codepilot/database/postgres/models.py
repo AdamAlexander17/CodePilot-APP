@@ -1,4 +1,5 @@
 """SQLAlchemy ORM models for the Postgres platform database."""
+from sqlalchemy.dialects.postgresql import JSONB
 
 import uuid
 from datetime import datetime
@@ -23,5 +24,6 @@ class Investigation(Base):
         default=InvestigationStatus.PENDING,
     )
     result: Mapped[str | None] = mapped_column(default=None)
+    result_report: Mapped[dict | None] = mapped_column(JSONB, default=None)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
